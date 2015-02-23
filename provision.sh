@@ -10,23 +10,28 @@ apt-get install mongodb -y
 mkdir -p /data/db
 chown -R mongodb:mongodb /data/db/
 
-npm install bower --save
 npm install -g express --save
 npm install express-generator -g --save
 
-
 cd /vagrant
-express ronda
-mv ronda/* .
-rm -R ronda
-mkdir log
-mkdir test
-perl -pi -e 's/\.\.\/app/\.\.\/server/g' /vagrant/bin/www
-mv app.js server.js
+if [ ! -f server.js ]
+	then
+	echo "Creating express files and stuff. THIS WILL ONLY EXECUTE ON NEW DEPLOYS THAT NEED express INSTALATION"
+	express ronda
+	mv ronda/* .
+	rm -R ronda
+	mkdir log
+	mkdir test
+	perl -pi -e 's/\.\.\/app/\.\.\/server/g' /vagrant/bin/www
+	mv app.js server.js
+fi
 
-cp package.js.master package.js
+cp package.json.master package.json
 
 npm install
+
+
+npm install bower --save
 
 cat << EOF > /etc/init/ronda.conf
 # ronda - ronda job file

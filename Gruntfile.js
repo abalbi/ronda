@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     watch: {
       files: ['Gruntfile.js', '*.js', '*/*.js', '*/*/*.js', '*.json', '*/*.json', '*/*/*.json', '*/*.jade'],
-      tasks: ['consequat-restart','waaiting','seeddb','test-api']
+      tasks: ['ronda-restart','waaiting','seeddb','test-api']
     }
   });
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -22,15 +22,19 @@ module.exports = function(grunt) {
   grunt.registerTask('vagrant-destroy', function(){
     shell.exec('vagrant destroy -f');
   });
-  grunt.registerTask('consequat-restart', function(){
-    shell.exec('vagrant ssh -c "sudo service consequat restart"');
+  grunt.registerTask('package-master', function(){
+    shell.exec('cp package.json package.json.master');
+  });
+  grunt.registerTask('ronda-restart', function(){
+    shell.exec('vagrant ssh -c "sudo service ronda restart"');
   });
   grunt.registerTask('seeddb', function(){
     shell.exec('vagrant ssh -c "cd /vagrant;seed"');
   });
   grunt.registerTask('start', ['vagrant-up','dev']);
   grunt.registerTask('dev', [
-    'consequat-restart',
+    'package-master'
+    'ronda-restart',
     'seeddb',
     'test-api',
     'watch'
