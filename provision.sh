@@ -1,5 +1,5 @@
 apt-get update
-
+apt-get install gcc make build-essential
 apt-get install python-software-properties -y
 
 apt-add-repository ppa:chris-lea/node.js
@@ -20,18 +20,17 @@ if [ ! -f server.js ]
 	express ronda
 	mv ronda/* .
 	rm -R ronda
-	mkdir log
-	mkdir test
 	perl -pi -e 's/\.\.\/app/\.\.\/server/g' /vagrant/bin/www
 	mv app.js server.js
 fi
+mkdir log
+mkdir test
+
 
 cp package.json.master package.json
 
 npm install
 
-
-npm install bower --save
 
 cat << EOF > /etc/init/ronda.conf
 # ronda - ronda job file
