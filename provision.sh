@@ -23,6 +23,9 @@ mkdir log
 mkdir test
 perl -pi -e 's/\.\.\/app/\.\.\/server/g' /vagrant/bin/www
 mv app.js server.js
+
+cp package.js.master package.js
+
 npm install
 
 cat << EOF > /etc/init/ronda.conf
@@ -50,5 +53,5 @@ pre-stop script
 end script
 EOF
 
-
+sudo service ronda start
 
