@@ -29,11 +29,11 @@ module.exports = function(grunt) {
     shell.exec('vagrant ssh -c "sudo service ronda restart"');
   });
   grunt.registerTask('seeddb', function(){
-    shell.exec('vagrant ssh -c "cd /vagrant;seed"');
+    shell.exec('vagrant ssh -c "cd /vagrant;node seeddb.js"');
   });
   grunt.registerTask('start', ['vagrant-up','dev']);
   grunt.registerTask('dev', [
-    'package-master'
+    'package-master',
     'ronda-restart',
     'seeddb',
     'test-api',
