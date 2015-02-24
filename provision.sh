@@ -47,8 +47,9 @@ end script
 
 script
     export HOME="/vagrant"
+    export DEBUG=*
     echo \$\$ > /var/run/ronda.pid
-    exec /usr/bin/node /vagrant/bin/www  >> /vagrant/log/ronda.log
+    exec /usr/bin/node /vagrant/bin/www  >> /vagrant/log/ronda.log 2>\&1
 end script
 
 pre-stop script
