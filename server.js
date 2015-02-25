@@ -34,19 +34,7 @@ app.use(session({
   saveUninitialized: true
 }))
 app.use(function (req, res, next) {
-  var views = req.session.views
-
-  if (!views) {
-    views = req.session.views = {}
-  }
-
-  // get the url pathname
-  console.log()
-  var pathname = parseurl(req).pathname
-
-  // count the views
-  views[pathname] = (views[pathname] || 0) + 1
-
+  req.query.access_token = req.session.access_token;
   next()
 })
 

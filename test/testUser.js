@@ -7,50 +7,61 @@ describe('express rest api server', function(){
   var id
   var token
   describe('users', function() {
-    it('should superagent work with session', function(done) {
-      superagent.get( baseurl + '/foo').send({}).
+    xit('should superagent work with session', function(done) {
+      var agent = superagent.agent();
+      agent.get( baseurl + '/foo').send({}).
       end(function(e,res){
         console.log(res.text)
+        agent.saveCookies(res)
+        agent.get( baseurl + '/foo').send({}).
+        end(function(e,res){
+          console.log(res.text)
+        })
       })
     })
-    it('should get access_token from login', function(done){
-      superagent.post( baseurl + '/users')
-        .send({
-          username: 'tokentester',
-          password: 'p4ssw0rd',
-          email: 'tokentester@mail.com'
-        })
-        .end(function(e,res){
-          id = res.body._id
-          superagent.post( baseurl + '/login')
-            .send( {
-              password: 'p4ssw0rd',
-              email: 'tokentester@mail.com'
-            } )
-            .end(function(e, res){
-              (e === null).should.be.ok
-              token = res.body.access_token
-              res.status.should.equal(200)
-              res.body.should.be.type('object')
-              res.body.access_token.length.should.equal(44)
-              done()
-            })
+    describe('auth',function(){
+      var agent = superagent.agent();
+      it('should get access_token from login', function(done){
+        agent.post( baseurl + '/users')
+          .send({
+            username: 'tokentester',
+            password: 'p4ssw0rd',
+            email: 'tokentester@mail.com'
+          })
+          .end(function(e,res){
+            agent.saveCookies(res)
+            id = res.body._id
+            agent.post( baseurl + '/login')
+              .send( {
+                password: 'p4ssw0rd',
+                email: 'tokentester@mail.com'
+              } )
+              .end(function(e, res){
+                (e === null).should.be.ok
+                token = res.body.access_token
+                res.status.should.equal(200)
+                res.body.should.be.type('object')
+                res.body.access_token.length.should.equal(44)
+                done()
+              })
 
-       })    
-    })
-    it('should check the token to access me page', function(done){
-      superagent.get( baseurl + '/me')
-        .send( { access_token: token } )
-        .end(function(e, res){
-          (e === null).should.be.ok
-          res.status.should.equal(200)
-          res.body.should.be.type('object')
-          res.body._id.length.should.equal(24)
-          res.body._id.should.equal(id)
-          res.body.username.should.equal('tokentester')
-          res.body.email.should.equal('tokentester@mail.com')
-          done()
-        })
+         })    
+      })
+      it('should check the token to access me page', function(done){
+        agent.get( baseurl + '/me')
+          //.send( { access_token: token } )
+          .send({})
+          .end(function(e, res){
+            (e === null).should.be.ok
+            res.status.should.equal(200)
+            res.body.should.be.type('object')
+            res.body._id.length.should.equal(24)
+            res.body._id.should.equal(id)
+            res.body.username.should.equal('tokentester')
+            res.body.email.should.equal('tokentester@mail.com')
+            done()
+          })
+      })
     })
     it('should POST 200', function(done){
       superagent.post( baseurl + '/users')

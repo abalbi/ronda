@@ -7,6 +7,7 @@ var User = require('../models/User')
 
 
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -38,7 +39,9 @@ router.post('/login', function(req, res) {
   User.findByEmail(req.body.email, function(err, user) {
     if(user.passport === req.body.passport) {
       user.setAccessToken(function(token){
-		  res.json({ access_token: token});
+      	  //req.session['caca'] = 'caca'
+      	  req.session.access_token = token
+		  res.json({ access_token: token})
       })
     }
   })    
