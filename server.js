@@ -8,6 +8,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var parseurl = require('parseurl')
 var session = require('express-session')
+var auth = require('./lib/auth');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -33,10 +35,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
-app.use(function (req, res, next) {
-  req.query.access_token = req.session.access_token;
-  next()
-})
+app.use(auth.checkAccessTokenSession)
 
 
 
