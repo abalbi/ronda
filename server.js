@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var mongoose = require('mongoose');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);

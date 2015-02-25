@@ -49,7 +49,8 @@ router.put('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var user = new User({
   	username: req.body.username,
-  	password: req.body.password,
+    password: req.body.password,
+    access_token: req.body.access_token,
   	email: req.body.email
   })
   user.save(function(err){
