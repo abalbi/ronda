@@ -6,6 +6,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var parseurl = require('parseurl')
+var session = require('express-session')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -26,6 +28,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
+app.use(function (req, res, next) {
+  var views = req.session.views
+
+  if (!views) {
+    views = req.session.views = {}
+  }
+
+  // get the url pathname
+  console.log()
+  var pathname = parseurl(req).pathname
+
+  // count the views
+  views[pathname] = (views[pathname] || 0) + 1
+
+  next()
+})
+
+
 
 app.use('/', routes);
 app.use('/users', users);

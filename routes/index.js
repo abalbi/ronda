@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport')
 var BearerStrategy = require('passport-http-bearer').Strategy;
-var User = require('../models/User');
+var session = require('express-session')
+var User = require('../models/User')
 
 
 /* GET home page. */
@@ -41,6 +42,17 @@ router.post('/login', function(req, res) {
       })
     }
   })    
+})
+
+
+
+router.get('/foo', function (req, res, next) {
+  res.send('you viewed this page ' + req.session.views['/foo'] + ' times')
+})
+
+
+router.get('/bar', function (req, res, next) {
+  res.send('you viewed this page ' + req.session.views['/bar'] + ' times')
 })
 
 module.exports = router;

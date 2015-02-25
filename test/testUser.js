@@ -7,8 +7,13 @@ describe('express rest api server', function(){
   var id
   var token
   describe('users', function() {
+    it('should superagent work with session', function(done) {
+      superagent.get( baseurl + '/foo').send({}).
+      end(function(e,res){
+        console.log(res.text)
+      })
+    })
     it('should get access_token from login', function(done){
-
       superagent.post( baseurl + '/users')
         .send({
           username: 'tokentester',
