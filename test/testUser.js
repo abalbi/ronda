@@ -30,6 +30,7 @@ describe('express rest api server', function(){
           })
           .end(function(e,res){
             agent.saveCookies(res)
+            id = res.body._id
             agent.post( baseurl + '/login')
               .send( {
                 password: 'p4ssw0rd',
@@ -43,6 +44,7 @@ describe('express rest api server', function(){
                 res.body.access_token.length.should.equal(44)
                 done()
               })
+
          })    
       })
       it('should check the token to access me page', function(done){

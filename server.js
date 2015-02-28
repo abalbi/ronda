@@ -31,13 +31,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'R0ND4',
   resave: false,
   saveUninitialized: true
 }))
 app.use(auth.checkAccessTokenSession)
-
-
 
 app.use('/', routes);
 app.use('/users', users);
@@ -72,6 +70,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
