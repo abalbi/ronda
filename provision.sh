@@ -47,6 +47,7 @@ end script
 
 script
     export HOME="/vagrant"
+    export NODE_ENV=development
     export DEBUG=*
     echo \$\$ > /var/run/ronda.pid
     exec /usr/bin/node /vagrant/bin/www  >> /vagrant/log/ronda.log 2>\&1
