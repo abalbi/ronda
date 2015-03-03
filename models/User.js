@@ -16,8 +16,14 @@ var UserSchema = new mongoose.Schema({
     required: true
   },
   access_token: {
-    type: String,
-    unique: true
+    type: String
+  },
+  mail_verification_token: {
+    type: String
+  },
+  mail_verificated: {
+    type: Boolean,
+    default: false
   },
   password: {
     type: String,
@@ -28,13 +34,10 @@ var UserSchema = new mongoose.Schema({
 // Execute before each user.save() call
 UserSchema.pre('save', function(callback) {
   var user = this;
-  // Break out if the password hasn't changed
   if (!user.isModified('password')) return callback();
-
   // Password changed so we need to hash it
   bcrypt.genSalt(5, function(err, salt) {
     if (err) return callback(err);
-
     bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) return callback(err);
       user.password = hash;
@@ -46,17 +49,25 @@ UserSchema.pre('save', function(callback) {
 UserSchema.methods.setAccessToken = function(callback) {
   var token = crypto.randomBytes(32).toString('base64');
   this.access_token = token
-  this.save(function(err, user){
-    callback(token)
-  })
 }
 
+UserSchema.methods.setMailVerificationToken = function(callback) {
+  var token = crypto.randomBytes(32).toString('base64');
+  this.mail_verification_token = token
+}
 
 UserSchema.statics.findByToken = function(token, callback) {
   this.findOne({access_token: token}, function(err, user) { 
     callback(err, user)
   })
 }
+UserSchema.statics.findByMailVerficatonToken = function(token, callback) {
+  console.log(token)
+  this.findOne({mail_verification_token: token}, function(err, user) { 
+    callback(err, user)
+  })
+}
+
 
 UserSchema.statics.findByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) { 
