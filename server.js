@@ -13,6 +13,7 @@ var auth = require('./lib/auth');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var goods = require('./routes/goods');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use(auth.checkAccessTokenSession)
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/goods', goods);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
