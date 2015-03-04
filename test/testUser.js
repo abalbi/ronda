@@ -149,7 +149,7 @@ describe('users', function() {
           done()
         })
     })
-    it('checks an updated', function(done){
+    it('checks deleted', function(done){
       agent.get( helper.baseurl + '/users/'+id)
         .end(function(e, res){
           (e === null).should.be.ok

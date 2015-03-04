@@ -61,6 +61,7 @@ UserSchema.statics.findByToken = function(token, callback) {
     callback(err, user)
   })
 }
+
 UserSchema.statics.findByMailVerficatonToken = function(token, callback) {
   console.log(token)
   this.findOne({mail_verification_token: token}, function(err, user) { 
@@ -68,10 +69,23 @@ UserSchema.statics.findByMailVerficatonToken = function(token, callback) {
   })
 }
 
-
 UserSchema.statics.findByEmail = function(email, callback) {
   this.findOne({email: email}, function(err, user) { 
     callback(err, user)
+  })
+}
+
+UserSchema.statics.findByUniqueField = function(value, callback) {
+  var _self = this
+  _self.findById(value, function(err, user) {
+    if(user) {
+      callback(err, user)
+    } else {
+      _self.findOne({username: value}, function(err, user) {
+        callback(err, user)
+      })
+    }
+
   })
 }
 

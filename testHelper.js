@@ -8,10 +8,17 @@ exports.getLoginAdminAgent = function(callback) {
   .send({
     password: 'p4ssw0rd',
     email: 'admin@ronda.org'
-  }).end(function(e, res){
+  }).end(function(e, res) {
     agent.saveCookies(res)
-    adminUser = res.body
-    return callback(agent)
+    agent.get( baseurl + '/me')
+    .send({})
+    .end(function(e, res) {
+      adminUser = res.body
+      return callback(agent)
+    })
   })
 }
 
+exports.getAdminUser = function() {
+  return adminUser
+}

@@ -36,16 +36,16 @@ router.delete('/:id', auth.isAuthenticated, function(req, res, next) {
 
 router.put('/:id', auth.isAuthenticated, function(req, res, next) {
   User.findById(req.params.id, function(err, item) {
-  if(req.body.username) item.username = req.body.username
+    if(req.body.username) item.username = req.body.username
     if(req.body.password) item.password = req.body.password
     if(req.body.email) item.email = req.body.email
-  item.save(function(err){
-    if (err){
-      res.status(422).json(err)
-    } else {
-      res.status(200).json(item)  
-    }
-  })
+    item.save(function(err){
+      if (err){
+        res.status(422).json(err)
+      } else {
+        res.status(200).json(item)  
+      }
+    })
   })
 });
 
