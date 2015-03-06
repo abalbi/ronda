@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router()
-var User = require('../models/User')
-var mail = require('../lib/mail')
-var auth = require('../lib/auth')
+var User = require('../../models/User')
+var mail = require('../../lib/mail')
+var auth = require('../../lib/auth')
 var crypto = require('crypto')
 
 /* GET users listing. */

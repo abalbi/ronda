@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/User')
-var Good = require('../models/Good')
-var auth = require('../lib/auth');
+var User = require('../../models/User')
+var Good = require('../../models/Good')
+var auth = require('../../lib/auth');
 router.post('/', auth.isAuthenticated, function(req, res, next) {
   auth.getCurrentUser(req, res, function(err, user){
     console.log(user)

@@ -15,7 +15,6 @@ var GoodSchema = new mongoose.Schema({
 
 GoodSchema.statics.findByOwner = function(owner, callback) {
   this.find({owner: owner._id}, function(err, item) {
-    console.log(item) 
     callback(err, item)
   })
 }

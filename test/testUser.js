@@ -9,7 +9,7 @@ describe('users', function() {
     it('should get access_token from login', function(done){
       helper.getLoginAdminAgent(function(adminagent) {
         agent = adminagent
-        agent.post( helper.baseurl + '/users')
+        agent.post( helper.apiurl + '/users')
         .send({
           username: 'tokentester',
           password: 'p4ssw0rd',
@@ -17,10 +17,10 @@ describe('users', function() {
         })
         .end(function(e,res){
           agent = superagent.agent();
-          agent.get( helper.baseurl + '/mail_verification/' + res.body.mail_verification_token)
+          agent.get( helper.apiurl + '/mail_verification/' + res.body.mail_verification_token)
             .send( {} )
             .end(function(e, res){
-              agent.post( helper.baseurl + '/login')
+              agent.post( helper.apiurl + '/login')
                 .send( {
                   password: 'p4ssw0rd',
                   email: 'tokentester@mail.com'
@@ -39,7 +39,7 @@ describe('users', function() {
       })
     })
     it('should check the token to access me page', function(done){
-      agent.get( helper.baseurl + '/me')
+      agent.get( helper.apiurl + '/me')
         .send({})
         .end(function(e, res){
           (e === null).should.be.ok
@@ -56,7 +56,7 @@ describe('users', function() {
     it('should POST 200', function(done){
       helper.getLoginAdminAgent(function(adminagent) {
         agent = adminagent
-        agent.post( helper.baseurl + '/users')
+        agent.post( helper.apiurl + '/users')
           .send({
             username: 'nicky',
             password: 'p4ssw0rd',
@@ -73,7 +73,7 @@ describe('users', function() {
       })    
     })
     it('should get 422 on non-unique mail', function(done){
-      agent.post( helper.baseurl + '/users')
+      agent.post( helper.apiurl + '/users')
         .send({
           username: 'nicky1',
           password: 'p4ssw0rd',
@@ -85,7 +85,7 @@ describe('users', function() {
        })    
     })
     it('should get 422 on non-unique username', function(done){
-      agent.post( helper.baseurl + '/users')
+      agent.post( helper.apiurl + '/users')
         .send({
           username: 'nicky',
           password: 'p4ssw0rd',
@@ -97,7 +97,7 @@ describe('users', function() {
        })    
     })
     it('get by id', function(done){
-      agent.get( helper.baseurl + '/users/'+id)
+      agent.get( helper.apiurl + '/users/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(200)
@@ -112,7 +112,7 @@ describe('users', function() {
         })
     })
     it('get all', function(done){
-      agent.get( helper.baseurl + '/users')
+      agent.get( helper.apiurl + '/users')
         .end(function(e, res){
           (e === null).should.be.ok
           res.body.length.should.be.above(1);
@@ -120,7 +120,7 @@ describe('users', function() {
         })
     })
     it('updates', function(done){
-      agent.put( helper.baseurl + '/users/'+id)
+      agent.put( helper.apiurl + '/users/'+id)
         .send({ username: 'niccolo'})
         .end(function(e, res){
           (e === null).should.be.ok
@@ -130,7 +130,7 @@ describe('users', function() {
         })
     })
     it('checks an updated', function(done){
-      agent.get( helper.baseurl + '/users/'+id)
+      agent.get( helper.apiurl + '/users/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.body.should.be.type('object')
@@ -141,7 +141,7 @@ describe('users', function() {
         })
     })
     it('removes', function(done){
-      agent.del( helper.baseurl + '/users/'+id)
+      agent.del( helper.apiurl + '/users/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(204)
@@ -150,7 +150,7 @@ describe('users', function() {
         })
     })
     it('checks deleted', function(done){
-      agent.get( helper.baseurl + '/users/'+id)
+      agent.get( helper.apiurl + '/users/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(404)

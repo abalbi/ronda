@@ -11,7 +11,7 @@ describe('good', function() {
       helper.getLoginAdminAgent(function(adminagent) {
         agent = adminagent
         user = helper.getAdminUser()
-        agent.post( helper.baseurl + '/goods' )
+        agent.post( helper.apiurl + '/goods' )
           .send({ title: "Elefantitos"
             , body: "De tela. Lindos. Gorditos."
           })
@@ -27,7 +27,7 @@ describe('good', function() {
       })    
     })
     it('get by id', function(done){
-      agent.get( helper.baseurl + '/goods/'+id)
+      agent.get( helper.apiurl + '/goods/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(200)
@@ -40,7 +40,7 @@ describe('good', function() {
         })
     })
     it('get all', function(done){
-      agent.get( helper.baseurl + '/goods')
+      agent.get( helper.apiurl + '/goods')
         .end(function(e, res){
           (e === null).should.be.ok
           res.body.length.should.be.above(1);
@@ -48,7 +48,7 @@ describe('good', function() {
         })
     })
     it('should get all from owner username', function(done) {
-      agent.get( helper.baseurl + '/goods/owner/' + user.username)
+      agent.get( helper.apiurl + '/goods/owner/' + user.username)
       .end(function(e, res){
         (e === null).should.be.ok
         res.body.length.should.be.above(0);
@@ -56,7 +56,7 @@ describe('good', function() {
       })
     })
     it('should get all from owner id', function(done) {
-      agent.get( helper.baseurl + '/goods/owner/' + user._id)
+      agent.get( helper.apiurl + '/goods/owner/' + user._id)
       .end(function(e, res){
         (e === null).should.be.ok
         res.body.length.should.be.above(0);
@@ -65,7 +65,7 @@ describe('good', function() {
     })
 
     it('updates', function(done){
-      agent.put( helper.baseurl + '/goods/'+id)
+      agent.put( helper.apiurl + '/goods/'+id)
         .send({ title: 'Elefantitos de tela'})
         .end(function(e, res){
           (e === null).should.be.ok
@@ -75,7 +75,7 @@ describe('good', function() {
         })
     })
     it('checks an updated', function(done){
-      agent.get( helper.baseurl + '/goods/'+id)
+      agent.get( helper.apiurl + '/goods/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.body.should.be.type('object')
@@ -87,7 +87,7 @@ describe('good', function() {
     })
     it('get by title', function(done){
       title = 'elefantitos-de-tela'
-      agent.get( helper.baseurl + '/goods/'+title)
+      agent.get( helper.apiurl + '/goods/'+title)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(200)
@@ -100,7 +100,7 @@ describe('good', function() {
         })
     })
     it('removes', function(done){
-      agent.del( helper.baseurl + '/goods/'+id)
+      agent.del( helper.apiurl + '/goods/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(204)
@@ -109,7 +109,7 @@ describe('good', function() {
         })
     })
     it('checks deleted', function(done){
-      agent.get( helper.baseurl + '/goods/'+id)
+      agent.get( helper.apiurl + '/goods/'+id)
         .end(function(e, res){
           (e === null).should.be.ok
           res.status.should.equal(404)

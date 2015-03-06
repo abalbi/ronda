@@ -63,7 +63,6 @@ UserSchema.statics.findByToken = function(token, callback) {
 }
 
 UserSchema.statics.findByMailVerficatonToken = function(token, callback) {
-  console.log(token)
   this.findOne({mail_verification_token: token}, function(err, user) { 
     callback(err, user)
   })
